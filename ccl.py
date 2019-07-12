@@ -5,10 +5,10 @@ class Lmanager:
   def __init__( self, data ):
     # Array with provisional labels
     # (Can be substitutet by dict to save space)
-    self.L_arr = np.zeros_like( data )
+    self.labels_arr = np.zeros_like( data )
     # Equivalence list
     # Index is label, content is corrected label
-    self.E = [ 0 ]
+    self.equi_l = [ 0 ]
     # Label variable
     self.label = 1
     # Object counter
@@ -17,18 +17,18 @@ class Lmanager:
   def new_label( self ):
     l = self.label
     self.label += 1
-    self.E.append( l )
+    self.equi_l.append( l )
     self.counter += 1
     return l
 
   def merge( self, row, col, a, b=None  ):
     if b is None:
-      self.L_arr[row, col] = self.E[ self.L_arr[a] ]
+      self.labels_arr[row, col] = self.equi_l[ self.labels_arr[a] ]
       self.counter -= 1
     if a is not None and b is not None:
-      self.L_arr[row, col] = min( self.E[ self.L_arr[a] ], self.E[ self.L_arr[b] ] )
-      self.E[ self.L_arr[a] ] = self.L_arr[row, col]
-      self.E[ self.L_arr[b] ] = self.L_arr[row, col]
+      self.labels_arr[row, col] = min( self.equi_l[ self.labels_arr[a] ], self.equi_l[ self.labels_arr[b] ] )
+      self.equi_l[ self.labels_arr[a] ] = self.labels_arr[row, col]
+      self.equi_l[ self.labels_arr[b] ] = self.labels_arr[row, col]
 
   def decision_tree( self, data, row, col ):
     """ 
@@ -61,4 +61,4 @@ class Lmanager:
           if col > 0 and data[row, col-1]:
             self.merge( row, col, (row, col-1) )
           else:
-            self.L_arr[row, col] = self.new_label()
+            self.labels_arr[row, col] = self.new_label()
