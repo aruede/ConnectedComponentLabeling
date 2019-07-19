@@ -19,7 +19,7 @@ for r, row in enumerate( testdata ):
 print("Provisional labels")
 print(cc.labels_arr)
 
-# Correct provisional labels
+# Correct the provisional labels
 # using the equivalence list
 for r, row in enumerate( cc.labels_arr ):
     for c, col in enumerate( cc.labels_arr ):
@@ -30,3 +30,7 @@ print(cc.labels_arr)
 
 print("Number of cluster:")
 print( len(set(cc.equi_l))-1 )
+
+
+ccl.cluster_analyzer(cc.equi_l, cc.labels_arr)
+
